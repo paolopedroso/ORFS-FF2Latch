@@ -2,6 +2,9 @@
 # file to avoid having to adding the to the make command line.
 -include settings.mk
 
+# Two color checking
+-include twocolor.mk
+
 # ==============================================================================
 # Uncomment or add the design to run
 # ==============================================================================
@@ -258,19 +261,31 @@ $(SDC_FILE_CLOCK_PERIOD): $(SDC_FILE)
 .PHONY: yosys-dependencies
 yosys-dependencies: $(YOSYS_DEPENDENCIES)
 
-MODE=default
+##################### Remove two phase test at final launch
 
 .PHONY: do-yosys
 do-yosys: $(DONT_USE_SC_LIB)
-ifeq ($(MODE), default)
-	echo "Running default mode"
-	$(SCRIPTS_DIR)/synth.sh $(SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
-else ifeq ($(MODE), two_phase_clk)
-	echo "Running two-phase clocking with latches mode"
-	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_CLK_SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
+ifneq ($(TWO_PHASE_TEST),1)
+ifeq ($(TWO_PHASE_RECIRCMUX), 1)
+	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_RECIRCMUX_SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
+else ifeq ($(TWO_PHASE_CLKGATE),1)
+	$(info Running Clock Gate...)
+	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_CLKGATE_SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
 else
-	echo "Mode not recognized. Exiting with error code 1."
-	exit 1
+	$(SCRIPTS_DIR)/synth.sh $(SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
+endif
+else
+	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_CLKGATE_SYNTH_TEST_SCRIPT) $(LOG_DIR)/1_2_yosys.log
+endif
+
+.PHONY: yosys_info
+yosys_info: do-yosys
+	@echo "Yosys Configuration"
+	@echo "TWO_PHASE_RECIRCMUX: $(TWO_PHASE_RECIRCMUX)"
+	@echo "TWO_PHASE_CLKGATE:   $(TWO_PHASE_CLKGATE)"
+ifneq ($(filter 1,$(TWO_PHASE_RECIRCMUX) $(TWO_PHASE_CLKGATE)),1)
+	@echo "Warning: Exactly one of TWO_PHASE_RECIRCMUX or TWO_PHASE_CLKGATE must be 1"
+	@echo "         Using TWO_PHASE_RECIRCMUX"
 endif
 
 .PHONY: do-yosys-canonicalize
@@ -505,6 +520,21 @@ cts: $(RESULTS_DIR)/4_cts.odb \
 
 # Run TritonCTS
 # ------------------------------------------------------------------------------
+ifneq ($(filter 1,$(TWO_PHASE_RECIRCMUX) $(TWO_PHASE_CLKGATE)),)
+$(eval $(call do-step,4_1_cts,$(RESULTS_DIR)/3_place.odb $(RESULTS_DIR)/3_place.sdc,cts_build_1))
+
+$(eval $(call do-step,4_2_cts,$(RESULTS_DIR)/4_1_cts.odb $(RESULTS_DIR)/4_1_cts.sdc,cts_build_2))
+
+$(eval $(call do-step,4_3_cts,$(RESULTS_DIR)/4_2_cts.odb $(RESULTS_DIR)/4_2_cts.sdc,cts_checks))
+
+$(eval $(call do-copy,4_cts,4_3_cts.odb))
+
+.PHONY: do-cts
+do-cts:
+	$(UNSET_AND_MAKE) do-4_1_cts do-4_2_cts do-4_3_cts do-4_cts
+
+else
+
 $(eval $(call do-step,4_1_cts,$(RESULTS_DIR)/3_place.odb $(RESULTS_DIR)/3_place.sdc,cts))
 
 $(RESULTS_DIR)/4_cts.sdc: $(RESULTS_DIR)/4_cts.odb
@@ -514,6 +544,10 @@ $(eval $(call do-copy,4_cts,4_1_cts.odb))
 .PHONY: do-cts
 do-cts:
 	$(UNSET_AND_MAKE) do-4_1_cts do-4_cts
+
+endif
+
+$(RESULTS_DIR)/4_cts.sdc: $(RESULTS_DIR)/4_cts.odb
 
 .PHONY: clean_cts
 clean_cts:
