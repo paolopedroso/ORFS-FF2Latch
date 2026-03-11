@@ -1,0 +1,31 @@
+{
+  "graph_options": {
+    "graph_name": "Latch DCG",
+    "save_plot": false,
+    "output_format": "png"
+  },
+
+  "latchgraph": true,
+  "run_test_suite" : true,
+
+  "power_analysis" : {
+    "do_power_analysis": true,
+    "designs_to_plot" : {
+      "riscv32i" : ["clkgate_retimed", "recircmux_retimed", "baseline"],
+      "_gcd" : ["clkgate_retimed", "recircmux_retimed", "baseline"],
+      "_aes" : ["clkgate_retimed", "recircmux_retimed", "baseline"]
+    }
+  },
+
+  "platforms": {
+    "sky130hd": {
+      "latch_pin_name": "GATE",
+      "gated_clk_2_pin": "B",
+      "gated_name_match": "and"
+    },
+
+    "asap7": {
+      "latch_pin_name": "EN"
+    }
+  }
+}
