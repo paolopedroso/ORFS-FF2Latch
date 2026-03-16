@@ -5,6 +5,8 @@ read_checkpoint $::env(RESULTS_DIR)/1_1_yosys_canonicalize.rtlil
 
 hierarchy -check -top $::env(DESIGN_NAME)
 
+puts "Using Recirculation Mux Variant"
+
 puts "Rename the clk input to clk_1"
 yosys cd $::env(DESIGN_NAME)
 yosys rename clk clk_1
@@ -119,8 +121,9 @@ if { $::env(ABC_RETIME_FOR_TWO_PHASE) } {
   
   design -save post_retiming
   
-  check_logical_equivalence $::env(DESIGN_NAME) pre_retiming post_retiming $abc_args $lib_args $lib_dont_use_args
-  
+  if { ![env_var_exists_and_non_empty ADDITIONAL_LEFS] } {
+    check_logical_equivalence $::env(DESIGN_NAME) pre_retiming post_retiming $abc_args $lib_args $lib_dont_use_args
+  }  
   opt
 } else {
   puts "Don't perform retiming"
@@ -170,8 +173,10 @@ hilomap -singleton \
   -hicell {*}$::env(TIEHI_CELL_AND_PORT) \
   -locell {*}$::env(TIELO_CELL_AND_PORT)
 
-# Insert buffer cells for pass through wires
-insbuf -buf {*}$::env(MIN_BUF_CELL_AND_PORTS)
+if { ![env_var_equals REMOVE_ABC_BUFFERS 1] } {
+  # Insert buffer cells for pass through wires
+  insbuf -buf {*}$::env(MIN_BUF_CELL_AND_PORTS)
+}
 
 # Reports
 tee -o $::env(REPORTS_DIR)/synth_check.txt check

@@ -5,6 +5,8 @@ read_checkpoint $::env(RESULTS_DIR)/1_1_yosys_canonicalize.rtlil
 
 hierarchy -check -top $::env(DESIGN_NAME)
 
+puts "Using test script"
+
 puts "Rename the clk input to clk_1"
 yosys cd $::env(DESIGN_NAME)
 yosys rename $::env(CORE_CLOCK) clk_1
@@ -93,15 +95,18 @@ renames -wire
 opt -purge
 
 file mkdir $::env(REPORTS_DIR)/debug
-tee -o $::env(REPORTS_DIR)/debug/stat_pre_two_phase.txt stat
+
+tee -o $::env(REPORTS_DIR)/debug/stat_pre_duplication.txt stat
+
+# pass normal, synch en, async rst flops to network
+dfflegalize -cell {$_DFF_P_} 01 -cell {$_DFFE_PP_} 01 \
+  -cell {$_DFF_PP0_} 01
 
 puts "Duplicate each flip-flop"
 techmap -max_iter 1 -map $::env(DUPLICATE_DFFS_CLKGATE_MAP_FILE)
 
 flatten
 opt -noff -keepdc -noclkinv
-
-tee -o $::env(REPORTS_DIR)/debug/stat_post_dupe.txt stat
 
 clean -purge
 
@@ -113,8 +118,9 @@ connect_clk *custom_FF_replace_2 C clk_2
 # connect to gated clocks
 connect_clk *gated_en B clk_2
 
-# last ditch effort for unmapped cells
-dfflegalize -cell $_DFF_P_ 01 -cell $_DFF_PP0_ 01
+tee -o $::env(REPORTS_DIR)/debug/stat_post_connect_clk.txt stat
+
+dfflegalize -cell {$_DFF_P_} 01 -cell {$_DFF_PP0_} 01
 
 if { [env_var_equals ABC_RETIME_FOR_TWO_PHASE 1] } {
   tee -o $::env(REPORTS_DIR)/debug/stat_pre_retime.txt stat
@@ -124,36 +130,26 @@ if { [env_var_equals ABC_RETIME_FOR_TWO_PHASE 1] } {
   puts "Perform retiming and mapping"
   abc {*}$abc_args_for_retiming
 
-  design -save post_retiming
+  tee -o $::env(REPORTS_DIR)/debug/stat_before_eqy.txt stat
   
+  design -save post_retiming
+
   # check_logical_equivalence doesn't cover macros
   # have to ensure macros are two phase clocked
   if { ![env_var_exists_and_non_empty ADDITIONAL_LEFS] } {
     check_logical_equivalence $::env(DESIGN_NAME) pre_retiming post_retiming $abc_args $lib_args $lib_dont_use_args
-  } else {
-    puts "Warning: Macros used in two phase design"
   }
 
   tee -o $::env(REPORTS_DIR)/debug/stat_post_retime.txt stat
-
-  opt -keepdc
 } else {
   puts "Don't perform retiming"
 }
 
+
 puts "Replace each DFF with a corresponding latch"
 techmap -autoproc -map $::env(DFF_TO_LATCH_MAP_FILE)
 
-opt
-
-# Technology mapping of flip-flops
-# dfflibmap only supports one liberty file
-if { [env_var_exists_and_non_empty DFF_LIB_FILE] } {
-  dfflibmap -liberty $::env(DFF_LIB_FILE) {*}$lib_dont_use_args
-} else {
-  dfflibmap {*}$lib_args {*}$lib_dont_use_args
-}
-opt
+tee -o $::env(REPORTS_DIR)/debug/stat_post_latch.txt stat
 
 # Replace undef values with defined constants
 setundef -zero
@@ -163,6 +159,7 @@ if {
   ![env_var_exists_and_non_empty SWAP_ARITH_OPERATORS]
 } {
   log_cmd abc {*}$abc_args
+  tee -o $::env(REPORTS_DIR)/debug/stat_post_abc.txt stat
 } else {
   scratchpad -set abc9.script $::env(SCRIPTS_DIR)/abc_speed_gia_only.script
   # crop out -script from arguments
@@ -184,17 +181,20 @@ hilomap -singleton \
   -hicell {*}$::env(TIEHI_CELL_AND_PORT) \
   -locell {*}$::env(TIELO_CELL_AND_PORT)
 
+
 if { ![env_var_equals REMOVE_ABC_BUFFERS 1] } {
-  puts "REMOVE_ABC_BUFFERS exists: [info exists ::env(REMOVE_ABC_BUFFERS)]"
-  puts "REMOVE_ABC_BUFFERS value: '[expr { [info exists ::env(REMOVE_ABC_BUFFERS)] ? $::env(REMOVE_ABC_BUFFERS) : "NOT SET" }]'"
   # Insert buffer cells for pass through wires
+  insbuf -buf {*}$::env(MIN_BUF_CELL_AND_PORTS)
 }
-insbuf -buf {*}$::env(MIN_BUF_CELL_AND_PORTS)
 
 # Reports
 tee -o $::env(REPORTS_DIR)/synth_check.txt check
 
 tee -o $::env(REPORTS_DIR)/synth_stat.txt stat {*}$lib_args
+
+
+puts "Before check assert"
+stat
 
 # check the design is composed exclusively of target cells, and
 # check for other problems

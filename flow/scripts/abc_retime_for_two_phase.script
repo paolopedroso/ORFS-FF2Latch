@@ -1,5 +1,61 @@
-strash
+st
 zero
-dretime -v
-retime -M 5 -D 1 -o -v
+balance
+
+dretime
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+drf -z
+retime -M 5 -D 1 -o
+
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+drf -z
+retime -M 5 -D 1 -o
+
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+drf -z
+retime -M 5 -D 1 -o
+
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+drf -z
+retime -M 5 -D 1 -o
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+balance
+dfraig
+dc2 -b -p
+drw -z
+balance
+
+scleanup
+
 map -D 1
+
+topo
+stime -c
+buffer -c
+upsize -c
+dnsize -c

@@ -116,7 +116,7 @@ set abc_args [list -script $abc_script \
   {*}$lib_args {*}$lib_dont_use_args -constr $::env(OBJECTS_DIR)/abc.constr]
 
 set abc_args_for_retiming [list -script $abc_retime_script_for_two_phase \
-  {*}$lib_args {*}$lib_dont_use_args -constr $::env(OBJECTS_DIR)/abc.constr -keepff -dff]
+  {*}$lib_args {*}$lib_dont_use_args -D 1 -constr $::env(OBJECTS_DIR)/abc.constr -keepff -dff]
 
 if { [env_var_exists_and_non_empty SDC_FILE_CLOCK_PERIOD] } {
   puts "Extracting clock period from SDC file: $::env(SDC_FILE_CLOCK_PERIOD)"
