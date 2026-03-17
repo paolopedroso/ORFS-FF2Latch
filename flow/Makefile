@@ -265,7 +265,6 @@ yosys-dependencies: $(YOSYS_DEPENDENCIES)
 
 .PHONY: do-yosys
 do-yosys: $(DONT_USE_SC_LIB)
-ifneq ($(TWO_PHASE_TEST),1)
 ifeq ($(TWO_PHASE_RECIRCMUX), 1)
 	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_RECIRCMUX_SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
 else ifeq ($(TWO_PHASE_CLKGATE),1)
@@ -273,9 +272,6 @@ else ifeq ($(TWO_PHASE_CLKGATE),1)
 	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_CLKGATE_SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
 else
 	$(SCRIPTS_DIR)/synth.sh $(SYNTH_SCRIPT) $(LOG_DIR)/1_2_yosys.log
-endif
-else
-	$(SCRIPTS_DIR)/synth.sh $(TWO_PHASE_CLKGATE_SYNTH_TEST_SCRIPT) $(LOG_DIR)/1_2_yosys.log
 endif
 
 .PHONY: yosys_info
