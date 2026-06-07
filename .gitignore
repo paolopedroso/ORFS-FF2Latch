@@ -105,3 +105,9 @@ bazel-testlogs
 
 # python venv
 venv/
+
+flow/twocolor/pylibs
+flow/twocolor/reports
+flow/twocolor/plots
+flow/twocolor/json
+
