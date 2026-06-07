@@ -71,6 +71,7 @@ export MIN_BUF_CELL_AND_PORTS = sky130_fd_sc_hd__buf_4 A X
 
 # Yosys mapping files
 export DUPLICATE_DFFS_MAP_FILE = $(PLATFORM_DIR)/duplicate_DFFs.v
+export DUPLICATE_DFFS_CLKGATE_MAP_FILE = $(PLATFORM_DIR)/duplicate_DFFs_clkgate.v
 export DFF_TRANSFORM_MAP_FILE = $(PLATFORM_DIR)/transform_dff.v
 export DFF_TO_LATCH_MAP_FILE = $(PLATFORM_DIR)/dff2latch.v
 
