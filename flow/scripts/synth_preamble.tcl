@@ -94,8 +94,11 @@ if { $::env(ABC_AREA) } {
   set abc_script $::env(SCRIPTS_DIR)/abc_speed.script
 }
 
-# set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/abc_retime_for_two_phase.script
-set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/$::env(ABC_RETIME_TWO_PHASE)
+if { [env_var_exists_and_non_empty ABC_RETIME_SCRIPT] } {
+  set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/$::env(ABC_RETIME_SCRIPT)
+} else {
+  set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/abc_retime_for_two_phase.script
+}
 
 # Create argument list for stat
 set lib_args ""
