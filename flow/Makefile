@@ -261,8 +261,6 @@ $(SDC_FILE_CLOCK_PERIOD): $(SDC_FILE)
 .PHONY: yosys-dependencies
 yosys-dependencies: $(YOSYS_DEPENDENCIES)
 
-##################### Remove two phase test at final launch
-
 .PHONY: do-yosys
 do-yosys: $(DONT_USE_SC_LIB)
 ifeq ($(TWO_PHASE_RECIRCMUX), 1)
@@ -306,6 +304,7 @@ $(RESULTS_DIR)/1_synth.v: $(RESULTS_DIR)/1_2_yosys.v
 clean_synth:
 	rm -f $(RESULTS_DIR)/1_* $(RESULTS_DIR)/mem*.json
 	rm -f $(REPORTS_DIR)/synth_*
+	rm -f $(REPORTS_DIR)/debug/*
 	rm -f $(LOG_DIR)/1_*
 	rm -f $(SYNTH_STATS)
 	rm -f $(SDC_FILE_CLOCK_PERIOD)
