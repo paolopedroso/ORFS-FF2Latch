@@ -18,6 +18,11 @@ set cts_args [list \
   -sink_clustering_enable \
   -repair_clock_nets]
 
+if { [env_var_equals TWO_PHASE_CLKGATE 1] || [env_var_equals TWO_PHASE_RECIRCMUX 1] } {
+  puts "CTS: Two Phase Detected"
+  lappend cts_args -balance_levels -obstruction_aware
+} 
+
 append_env_var cts_args CTS_BUF_DISTANCE -distance_between_buffers 1
 append_env_var cts_args CTS_CLUSTER_SIZE -sink_clustering_size 1
 append_env_var cts_args CTS_CLUSTER_DIAMETER -sink_clustering_max_diameter 1

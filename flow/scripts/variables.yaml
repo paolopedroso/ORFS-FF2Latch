@@ -316,6 +316,7 @@ REMOVE_ABC_BUFFERS:
     taking too long, use a SETUP/HOLD_SLACK_MARGIN to terminate timing repair early
     instead of using REMOVE_ABC_BUFFERS or set SKIP_LAST_GASP=1.
   stages:
+    - synth
     - floorplan
   deprecated: 1
 PLACE_SITE:
@@ -693,6 +694,8 @@ ADDITIONAL_LEFS:
   description: >
     Hardened macro LEF view files listed here. The LEF information of the
     macros is immutable and used throughout all stages. Stored in the .odb file.
+  stages:
+    - synth
 ADDITIONAL_LIBS:
   description: >
     Hardened macro library files listed here. The library information is

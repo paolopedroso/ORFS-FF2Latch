@@ -94,7 +94,8 @@ if { $::env(ABC_AREA) } {
   set abc_script $::env(SCRIPTS_DIR)/abc_speed.script
 }
 
-set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/abc_retime_for_two_phase.script
+# set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/abc_retime_for_two_phase.script
+set abc_retime_script_for_two_phase $::env(SCRIPTS_DIR)/$::env(ABC_RETIME_TWO_PHASE)
 
 # Create argument list for stat
 set lib_args ""
@@ -221,4 +222,27 @@ proc check_logical_equivalence {top_module gold gate abc_args lib_args lib_dont_
 
     puts "Restore the design"
     design -load backup_1
+}
+
+proc legal_modules { map_file } {
+    puts "reading $map_file"
+    set infile [open $map_file r]
+
+    set module_list [list]
+
+    while {[gets $infile line] != -1} {
+        if {[regexp {^\s*module\s+(\\?\$\S+)} $line -> name]} {
+            set name [string trimleft $name "\\"]
+
+            # skip latches
+            if {[string match {$_DLATCH*} $name]} {
+                continue
+            }
+
+            lappend module_list -cell $name 01
+        }
+    }
+
+    close $infile
+    return $module_list
 }

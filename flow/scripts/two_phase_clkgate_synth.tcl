@@ -98,9 +98,10 @@ file mkdir $::env(REPORTS_DIR)/debug
 
 tee -o $::env(REPORTS_DIR)/debug/stat_pre_duplication.txt stat
 
-# pass normal, synch en, async rst flops to network
-dfflegalize -cell {$_DFF_P_} 01 -cell {$_DFFE_PP_} 01 \
-  -cell {$_DFF_PP0_} 01
+set clkgate_cells [legal_modules $::env(DUPLICATE_DFFS_CLKGATE_MAP_FILE)]
+
+# legalize cells accepted in clkgate file
+dfflegalize {*}$clkgate_cells
 
 puts "Duplicate each flip-flop"
 techmap -max_iter 1 -map $::env(DUPLICATE_DFFS_CLKGATE_MAP_FILE)

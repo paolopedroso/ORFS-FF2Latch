@@ -1,0 +1,20 @@
+st
+zero
+balance
+
+dretime
+
+st
+balance
+dfraig
+dc2 -b -p
+drw -z
+drf -z
+retime -M 5 -D 1 -o
+if -K 6 -g
+
+map -D 1
+
+echo PRINTABCSTAT
+
+print_stats
