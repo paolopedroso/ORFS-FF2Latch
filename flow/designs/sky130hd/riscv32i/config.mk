@@ -3,8 +3,11 @@ export DESIGN_NAME = riscv
 export PLATFORM    = sky130hd
 
 export VERILOG_FILES = $(sort $(wildcard $(DESIGN_HOME)/src/$(DESIGN_NICKNAME)/*.v))
+# export SDC_FILE      = $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/default_constraint.sdc
 export SDC_FILE      = $(DESIGN_HOME)/$(PLATFORM)/$(DESIGN_NICKNAME)/two_phase_clk_constraint.sdc
 
+# export TWO_PHASE_RECIRCMUX = 1
+export TWO_PHASE_CLKGATE = 1
 export ABC_RETIME_FOR_TWO_PHASE = 1
 
 export CORE_UTILIZATION = 45

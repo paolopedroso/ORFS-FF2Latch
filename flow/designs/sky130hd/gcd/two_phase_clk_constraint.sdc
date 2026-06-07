@@ -1,9 +1,19 @@
+# From Baseline
+# set clk_io_pct 0.015
+# set clk_period [expr 2.4 * 1.1] ~2.64 
+
 ############### Preliminaries ###############
 
 current_design gcd
 
+# my results
+# set clk_period 2.56
+# set clk_io_pct 0.1
+# set duty_cycle 0.45
+
+# lee ways
 set clk_period 3.99
-set clk_io_pct 0.2
+set clk_io_pct 0.01
 set duty_cycle 0.49
 
 set clk_1_rise 0.0
@@ -19,7 +29,7 @@ set clk_2_waveform_list {}
 lappend clk_2_waveform_list $clk_2_rise
 lappend clk_2_waveform_list $clk_2_fall
 
-
+# source platforms/sky130hd/specify_files_for_sdc.tcl
 ############### Set up default clock ###############
 
 set default_clk_name default_clk

@@ -1,14 +1,10 @@
-# From Baseline
-# set clk_period [expr 1.2 * 4.2] ~5.04
-# set clk_io_pct 0.11
 
 ############### Preliminaries ###############
 
-current_design aes_cipher_top
+current_design jpeg
 
-
-set clk_period 4.7
-set clk_io_pct 0.1
+set clk_period 5.5
+set clk_io_pct 0.2
 set duty_cycle 0.49
 
 set clk_1_rise 0.0
@@ -24,7 +20,7 @@ set clk_2_waveform_list {}
 lappend clk_2_waveform_list $clk_2_rise
 lappend clk_2_waveform_list $clk_2_fall
 
-
+# source platforms/sky130hd/specify_files_for_sdc.tcl
 ############### Set up default clock ###############
 
 set default_clk_name default_clk
