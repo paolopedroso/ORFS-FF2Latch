@@ -1,0 +1,99 @@
+<svg viewBox="0 0 1020 540" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1a1a1a"/>
+    </marker>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1020" height="540" fill="#ffffff"/>
+
+  <!-- titles -->
+  <text x="90" y="58" font-size="26" font-weight="600" fill="#1a1a1a">Standard OpenROAD Flow:</text>
+  <text x="760" y="58" font-size="26" font-weight="600" fill="#1a1a1a">Modifications:</text>
+
+  <!-- ===================== MAIN FLOW ===================== -->
+  <!-- input -->
+  <rect x="30" y="115" width="175" height="56" rx="4" fill="#5bbfa6" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="118" y="138" font-size="15" text-anchor="middle" fill="#0e2f29">Verilog + libraries,</text>
+  <text x="118" y="158" font-size="15" text-anchor="middle" fill="#0e2f29">constraints</text>
+  <line x1="205" y1="143" x2="266" y2="143" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#ah)"/>
+
+  <!-- flow boxes -->
+  <rect x="270" y="120" width="330" height="46" rx="4" fill="#f2cdd1" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="149" font-size="17" text-anchor="middle" fill="#1a1a1a">Logic Synthesis</text>
+
+  <rect x="270" y="180" width="330" height="46" rx="4" fill="#fce9c8" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="209" font-size="17" text-anchor="middle" fill="#1a1a1a">Floorplanning</text>
+
+  <rect x="270" y="240" width="330" height="46" rx="4" fill="#cfe3f7" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="269" font-size="17" text-anchor="middle" fill="#1a1a1a">Placement &amp; Optimization</text>
+
+  <rect x="270" y="300" width="330" height="46" rx="4" fill="#3d7d73" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="329" font-size="17" text-anchor="middle" fill="#ffffff">CTS &amp; Optimization</text>
+
+  <rect x="270" y="360" width="330" height="46" rx="4" fill="#ef8023" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="389" font-size="17" text-anchor="middle" fill="#1a1a1a">Global &amp; Detail Routing</text>
+
+  <rect x="270" y="420" width="330" height="46" rx="4" fill="#f0606d" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="435" y="449" font-size="17" text-anchor="middle" fill="#1a1a1a">Layout Finishing</text>
+
+  <!-- vertical connectors -->
+  <line x1="435" y1="166" x2="435" y2="180" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="435" y1="226" x2="435" y2="240" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="435" y1="286" x2="435" y2="300" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="435" y1="346" x2="435" y2="360" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="435" y1="406" x2="435" y2="420" stroke="#1a1a1a" stroke-width="1.5"/>
+
+  <!-- output -->
+  <line x1="270" y1="443" x2="208" y2="443" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#ah)"/>
+  <rect x="30" y="415" width="175" height="56" rx="4" fill="#ff1a1a" stroke="#2b2b2b" stroke-width="1.4"/>
+  <text x="118" y="438" font-size="15" text-anchor="middle" fill="#ffffff">GDSII</text>
+  <text x="118" y="459" font-size="15" text-anchor="middle" fill="#ffffff">Final Layout</text>
+
+  <!-- ===================== DASHED CALL-OUTS ===================== -->
+  <g stroke="#2a64c4" stroke-width="1.3" stroke-dasharray="5 4" fill="none">
+    <line x1="600" y1="122" x2="690" y2="74"/>
+    <line x1="600" y1="164" x2="690" y2="242"/>
+    <line x1="600" y1="302" x2="690" y2="270"/>
+    <line x1="600" y1="344" x2="690" y2="390"/>
+    <line x1="600" y1="422" x2="690" y2="402"/>
+    <line x1="600" y1="464" x2="690" y2="516"/>
+  </g>
+
+  <!-- ===================== MODIFICATION: LOGIC SYNTHESIS ===================== -->
+  <rect x="690" y="72" width="300" height="172" rx="14" fill="#f7ccd0" stroke="#e0a9af" stroke-width="1.4"/>
+  <text x="840" y="94" font-size="16" font-weight="700" text-anchor="middle" fill="#1a1a1a">Logic Synthesis</text>
+
+  <rect x="725" y="102" width="230" height="32" rx="5" fill="#e6dff2" stroke="#b9add6" stroke-width="1.1"/>
+  <text x="840" y="123" font-size="14" text-anchor="middle" fill="#1a1a1a">Duplicate Flip-Flops</text>
+  <polygon points="834,135 846,135 846,141 850,141 840,149 830,141 834,141" fill="#f5a623" stroke="#d98e10" stroke-width="0.7"/>
+
+  <rect x="725" y="150" width="230" height="32" rx="5" fill="#e6dff2" stroke="#b9add6" stroke-width="1.1"/>
+  <text x="840" y="171" font-size="14" text-anchor="middle" fill="#1a1a1a">Retime Flip-Flops</text>
+  <polygon points="834,183 846,183 846,189 850,189 840,197 830,189 834,189" fill="#f5a623" stroke="#d98e10" stroke-width="0.7"/>
+
+  <rect x="725" y="198" width="230" height="32" rx="5" fill="#e6dff2" stroke="#b9add6" stroke-width="1.1"/>
+  <text x="840" y="219" font-size="14" text-anchor="middle" fill="#1a1a1a">Map Flip-Flops &#8594; Latches</text>
+
+  <!-- ===================== MODIFICATION: CLOCK TREE SYNTHESIS ===================== -->
+  <rect x="690" y="268" width="300" height="124" rx="14" fill="#3d7d73" stroke="#2c5d56" stroke-width="1.4"/>
+  <text x="840" y="290" font-size="16" font-weight="700" text-anchor="middle" fill="#ffffff">Clock Tree Synthesis</text>
+
+  <rect x="725" y="298" width="230" height="32" rx="5" fill="#ddf0d4" stroke="#aacca0" stroke-width="1.1"/>
+  <text x="840" y="320" font-size="15" text-anchor="middle" fill="#1a1a1a">Build &#934;&#8321;</text>
+  <polygon points="834,331 846,331 846,337 850,337 840,345 830,337 834,337" fill="#f5a623" stroke="#d98e10" stroke-width="0.7"/>
+
+  <rect x="725" y="346" width="230" height="32" rx="5" fill="#ddf0d4" stroke="#aacca0" stroke-width="1.1"/>
+  <text x="840" y="368" font-size="15" text-anchor="middle" fill="#1a1a1a">Build &#934;&#8322;</text>
+
+  <!-- ===================== MODIFICATION: LAYOUT FINISHING ===================== -->
+  <rect x="690" y="400" width="300" height="118" rx="14" fill="#f4666f" stroke="#d94851" stroke-width="1.4"/>
+
+  <rect x="725" y="414" width="230" height="34" rx="5" fill="#f7d6d9" stroke="#e0a9af" stroke-width="1.1"/>
+  <text x="840" y="436" font-size="14" font-weight="700" text-anchor="middle" fill="#1a1a1a">Two Color Verification</text>
+  <polygon points="834,449 846,449 846,455 850,455 840,463 830,455 834,455" fill="#f5a623" stroke="#d98e10" stroke-width="0.7"/>
+
+  <rect x="725" y="464" width="230" height="34" rx="5" fill="#f7d6d9" stroke="#e0a9af" stroke-width="1.1"/>
+  <text x="840" y="486" font-size="14" text-anchor="middle" fill="#1a1a1a">Layout Finishing</text>
+</svg>

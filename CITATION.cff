@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated paper."
+title: "ORFS-FF2Latch: An Open-Source Flow for Single-Phase, Edge-Triggered to Two-Phase, Non-Overlapping Clocking Conversion"
+authors:
+  - family-names: "Pedroso"
+    given-names: "Paolo"
+    email: "ppedroso@ucsc.edu"
+    affiliation: "University of California Santa Cruz"
+  - family-names: "Wang"
+    given-names: "Lee-Way"
+    email: "lwang261@ucsc.edu"
+    affiliation: "University of California Santa Cruz"
+  - family-names: "Guthaus"
+    given-names: "Matthew R."
+    email: "mrg@ucsc.edu"
+    affiliation: "University of California Santa Cruz"
+license: "CC-BY-4.0"
+repository-code: "https://github.com/paolopedroso/ORFS-FF2Latch"
+preferred-citation:
+  type: conference-paper
+  title: "An Open-Source Flow for Single-Phase, Edge-Triggered to Two-Phase, Non-Overlapping Clocking Conversion"
+  authors:
+    - family-names: "Pedroso"
+      given-names: "Paolo"
+      affiliation: "University of California Santa Cruz"
+    - family-names: "Wang"
+      given-names: "Lee-Way"
+      affiliation: "University of California Santa Cruz"
+    - family-names: "Guthaus"
+      given-names: "Matthew R."
+      affiliation: "University of California Santa Cruz"
+  collection-title: "Proceedings of the Great Lakes Symposium on VLSI 2026 (GLSVLSI '26)"
+  conference:
+    name: "Great Lakes Symposium on VLSI 2026"
+    city: "Canandaigua"
+    region: "NY"
+    country: "US"
+  publisher:
+    name: "ACM"
+    city: "New York"
+    region: "NY"
+    country: "US"
+  year: 2026
+  month: 6
+  doi: "10.1145/3787109.3815265"
+  isbn: "979-8-4007-2431-2"
+  url: "https://doi.org/10.1145/3787109.3815265"
+  notes: "To appear in the proceedings."
