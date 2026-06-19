@@ -1,4 +1,4 @@
-# ORFS-FF2Latch
+# An Open-Source Flow for Single-Phase, Edge-Triggered to Two-Phase, Non-Overlapping Clocking Conversion
 
 ORFS-FF2Latch is the first fully automated open-source flow for converting single-phase, edge-triggered flip-flop RTL into two-phase, non-overlapping latch-based designs, integrated into OpenROAD-flow-scripts. It combines Yosys technology mapping, ABC retiming, dual clock tree synthesis, and two-coloring static verification to deliver end-to-end RTL-to-GDS implementation for both clock-gated and recirculation-mux latch variants.
 
